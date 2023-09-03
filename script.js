@@ -85,50 +85,31 @@ let currentQuestion = 0;
 let rightAnswers = 0;
 let fail = new Audio('audio/wrong.mp3');
 let success = new Audio('audio/success.mp3');
-function init() {
 
+function init() {
     document.getElementById('allQuestions').innerHTML = questions.length;
     showSite();
 }
 
 function showSite() {
-    if (currentQuestion >= questions.length) {
-        document.getElementById('picture').src="img/trophy.png"
-        document.getElementById('endScreen').style = '';
-        document.getElementById('quizQuestionBody').style = 'display: none;'
-        document.getElementById('rightAnswers').innerHTML = rightAnswers;
-        document.getElementById('possibleQuestions').innerHTML = questions.length;
+    if (gameIsOver()) {
+        showEndScreen();
     } else {
-        let question = questions[currentQuestion];
-
-        let percent = currentQuestion / questions.length;
-        console.log('Fortschritt', percent);
-        percent = percent * 100;
-        console.log('Fortschritt', percent);
-        document.getElementById('progress-bar').innerHTML = `${percent}%`;
-        document.getElementById('progress-bar').style = `width: ${percent}%`;
-
-
-        document.getElementById('questionNumber').innerHTML = currentQuestion + 1;
-        document.getElementById('questions').innerHTML = question["question"];
-        document.getElementById('answer_1').innerHTML = question["answer_1"];
-        document.getElementById('answer_2').innerHTML = question["answer_2"];
-        document.getElementById('answer_3').innerHTML = question["answer_3"];
-        document.getElementById('answer_4').innerHTML = question["answer_4"];
+        updateProgressBar();
+        updateToNextQuestion();
     }
+}
+function gameIsOver(){
+    return currentQuestion >= questions.length;
 }
 function answer(selection) {
 
     let question = questions[currentQuestion];
-    console.log('Selectet answer is ', selection);
     let selectedQuestionNumber = selection.slice(-1);
-    console.log('selectedQuestionNumber is ', selectedQuestionNumber);
-    console.log('current question is', question['result']);
-
     let idOfRightAnwer = `answer_${question['result']}`;
 
 
-    if (selectedQuestionNumber == question['result']) {
+    if (answerSelection(selectedQuestionNumber, question)) {
         console.log('Deine Antwort ist Richtig!');
         rightAnswers++;
         document.getElementById(selection).parentNode.classList.add('bg-success');
@@ -141,6 +122,9 @@ function answer(selection) {
 
     }
     document.getElementById('next').disabled = false;
+}
+function answerSelection(selectedQuestionNumber, question){
+    return selectedQuestionNumber == question['result'];
 }
 function nextQuestion() {
     currentQuestion++;
@@ -166,4 +150,27 @@ function playAgain(){
     document.getElementById('quizQuestionBody').style = '';
     document.getElementById('endScreen').style = 'display: none';
     init();
+}
+function showEndScreen(){
+    document.getElementById('picture').src="img/trophy.png"
+    document.getElementById('endScreen').style = '';
+    document.getElementById('quizQuestionBody').style = 'display: none;'
+    document.getElementById('rightAnswers').innerHTML = rightAnswers;
+    document.getElementById('possibleQuestions').innerHTML = questions.length;
+}
+
+function updateToNextQuestion(){
+    let question = questions[currentQuestion];
+        document.getElementById('questionNumber').innerHTML = currentQuestion + 1;
+        document.getElementById('questions').innerHTML = question["question"];
+        document.getElementById('answer_1').innerHTML = question["answer_1"];
+        document.getElementById('answer_2').innerHTML = question["answer_2"];
+        document.getElementById('answer_3').innerHTML = question["answer_3"];
+        document.getElementById('answer_4').innerHTML = question["answer_4"];
+}
+function updateProgressBar(){
+    let percent = currentQuestion / questions.length;
+    percent = percent * 100;
+    document.getElementById('progress-bar').innerHTML = `${percent}%`;
+    document.getElementById('progress-bar').style = `width: ${percent}%`;
 }
