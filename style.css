@@ -1,0 +1,22 @@
+body{
+    background-color: #35bed8 !important;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #35bed8 !important;
+    min-height: 100vh;
+}
+.cardImageHeight{
+    height: 100% !important;
+    object-fit: cover;
+}
+.spaceNext{
+    display: flex;
+    justify-content: space-between;
+}
+.quiz-answer-card:hover{
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.05);
+}
