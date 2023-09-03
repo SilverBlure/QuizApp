@@ -32,3 +32,11 @@ body{
 .text-center {
     text-align: center;
 }
+.font32 {
+    font-size: 32px;
+}
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -83,6 +83,8 @@ let questions = [
 
 let currentQuestion = 0;
 let rightAnswers = 0;
+let fail = new Audio('audio/wrong.mp3');
+let success = new Audio('audio/success.mp3');
 function init() {
 
     document.getElementById('allQuestions').innerHTML = questions.length;
@@ -91,7 +93,7 @@ function init() {
 
 function showSite() {
     if (currentQuestion >= questions.length) {
-        document.getElementById('picture').classList.add('d-none');
+        document.getElementById('picture').src="img/trophy.png"
         document.getElementById('endScreen').style = '';
         document.getElementById('quizQuestionBody').style = 'display: none;'
         document.getElementById('rightAnswers').innerHTML = rightAnswers;
@@ -130,10 +132,12 @@ function answer(selection) {
         console.log('Deine Antwort ist Richtig!');
         rightAnswers++;
         document.getElementById(selection).parentNode.classList.add('bg-success');
+        success.play();
     } else {
         console.log('Deine Antwort ist Falsch!!');
         document.getElementById(selection).parentNode.classList.add('bg-danger');
         document.getElementById(idOfRightAnwer).parentNode.classList.add('bg-success');
+        fail.play();
 
     }
     document.getElementById('next').disabled = false;
@@ -154,4 +158,12 @@ function resetButtons() {
     document.getElementById('answer_3').parentNode.classList.remove('bg-danger');
     document.getElementById('answer_4').parentNode.classList.remove('bg-success');
     document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
+}
+function playAgain(){
+    currentQuestion = 0;
+    rightAnswers = 0;
+    document.getElementById('picture').src= 'img/bulb.jpg';
+    document.getElementById('quizQuestionBody').style = '';
+    document.getElementById('endScreen').style = 'display: none';
+    init();
 }
